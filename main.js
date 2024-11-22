@@ -27,6 +27,21 @@ app.get('/products', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products', details: error.message });
   }
 });
+
+//Get a product by ID
+  app.get('/products/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findByPk(id);
+      if (product) {
+        res.status(200).json(product);
+      } else {
+        res.status(404).json({ error: 'Product not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch product', details: error.message });
+    }
+  });
 //update
 app.put('/products/:id', async (req, res) => {
   try {
